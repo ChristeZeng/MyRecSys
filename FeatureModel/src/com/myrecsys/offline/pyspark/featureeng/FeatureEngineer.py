@@ -25,7 +25,9 @@ def array2vec(genreIndexes, indexSize):
 def multiHotEncoderExample(mvsamples):
     samplesWithGenre = mvsamples.select("movieId", "title", explode(
         split(F.col("genres"), "\\|").cast(ArrayType(StringType()))).alias('genre'))
-    genreIndexer = StringIndexer(inputCols='genre', outputCol='genreIndex')
+    samplesWithGenre.show(10)
+    samplesWithGenre.printSchema()
+    genreIndexer = StringIndexer(inputCols="genre", outputCol="genreIndex")
     StringIndexerModel = genreIndexer.fit(samplesWithGenre)
     genreIndexSamples = StringIndexerModel.transform(samplesWithGenre).withColumn('genreIndexInt',
                                                                                   F.col('genreIndex').cast(IntegerType()))
