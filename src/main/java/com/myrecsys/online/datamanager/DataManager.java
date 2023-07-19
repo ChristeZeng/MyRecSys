@@ -1,5 +1,8 @@
 package com.myrecsys.online.datamanager;
 
+import com.myrecsys.online.util.Config;
+import com.myrecsys.online.util.Utility;
+
 import java.io.File;
 import java.util.*;
 
@@ -30,7 +33,7 @@ public class DataManager {
     }
 
     public void loadData(String movieDataPath, String linkDataPath, String ratingDataPath, String movieEmbPath,
-                         String userEmbPath, String movieRedisKey, String userRedisKey) {
+                         String userEmbPath, String movieRedisKey, String userRedisKey) throws Exception {
         // load movie data
         loadMovieData(movieDataPath);
         // load link data
@@ -38,12 +41,12 @@ public class DataManager {
         // load rating data
         loadRatingData(ratingDataPath);
         // load movie embedding data
-        loadMovieEmbData(movieEmbPath, movieRedisKey);
+        loadMovieEmb(movieEmbPath, movieRedisKey);
         // load user embedding data, if IS_LOAD_ITEM_FEATURE_FROM_REDIS is true
         if (Config.IS_LOAD_ITEM_FEATURE_FROM_REDIS) {
             loadMovieFeatures("mf:");
         }
-        loadUserEmbData(userEmbPath, userRedisKey);
+        loadUserEmb(userEmbPath, userRedisKey);
     }
 
     private void loadMovieData(String movieDataPath) throws Exception{
